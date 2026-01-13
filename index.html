@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You, Mi Amor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: radial-gradient(circle at top, #300000, #000);
+  color: #f6eaea;
+  overflow-x: hidden;
+}
+
+.hidden { display: none; }
+
+.center {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+button {
+  padding: 16px 40px;
+  border-radius: 50px;
+  border: none;
+  background: #b30000;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin: 12px;
+  transition: transform 0.3s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+#noBtn {
+  background: #444;
+}
+
+.final {
+  max-width: 900px;
+  margin: auto;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+img {
+  max-width: 260px;
+  border-radius: 18px;
+  margin: 30px 15px;
+  box-shadow: 0 0 30px rgba(255,0,0,0.3);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+img:active {
+  transform: scale(1.08);
+  box-shadow: 0 0 50px rgba(255,80,80,0.6);
+}
+
+.poem {
+  font-style: italic;
+  line-height: 1.9;
+  margin: 40px 0;
+}
+
+p {
+  font-size: 1.05em;
+  line-height: 1.8;
+}
+
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: float 6s linear forwards;
+  opacity: 0.6;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 0.6; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- VALENTINE QUESTION -->
+<div class="center" id="question">
+  <h1>Will you be my Valentine? 💌</h1>
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 🙄</button>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="hidden final" id="final">
+  <h1>For You, Oshin ❤️</h1>
+
+  <p><b>Tap to play our song 🎵</b></p>
+  <button id="playMusic">Play our song</button>
+
+  <img src="oshin1.jpg">
+
+  <p class="poem">
+    Somewhere between now and forever,<br>
+    You quietly became my favorite place.<br>
+    Even from afar, your presence stays,<br>
+    Soft, warm, and impossible to replace.
+  </p>
+
+  <img src="oshin2.jpg">
+
+  <p>
+    Loving you from a distance hasn’t made things weaker —
+    it’s made them clearer.
+    I love you the way you are,
+    and you are the most beautiful person in my eyes.
+    Always.
+  </p>
+
+  <img src="oshin3.jpg">
+</div>
+
+<audio id="music" src="music.mp3"></audio>
+
+<script>
+let noClicks = 0;
+const audio = document.getElementById("music");
+audio.volume = 0;
+
+document.getElementById("noBtn").onclick = () => {
+  noClicks++;
+  let scale = 1 - noClicks * 0.2;
+  document.getElementById("noBtn").style.transform = `scale(${scale})`;
+
+  if (noClicks >= 3) {
+    document.getElementById("noBtn").style.display = "none";
+    document.getElementById("yesBtn").style.transform = "scale(3)";
+  }
+};
+
+document.getElementById("yesBtn").onclick = () => {
+  document.getElementById("question").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
+};
+
+document.getElementById("playMusic").onclick = () => {
+  audio.play();
+  let fade = setInterval(() => {
+    if (audio.volume < 0.9) {
+      audio.volume += 0.05;
+    } else {
+      clearInterval(fade);
+    }
+  }, 200);
+};
+
+// Floating hearts
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (14 + Math.random() * 20) + "px";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 1200);
+</script>
+
+</body>
+</html>
+
